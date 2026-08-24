@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Header Section -->
+<div class="text-center mb-5 py-4 bg-success bg-opacity-10 rounded-4 border border-success border-opacity-25">
+    <span class="badge bg-success text-white rounded-pill px-3 py-2 mb-2 shadow-sm">
+        <i class="bi bi-people-fill me-1"></i> Student Communities
+    </span>
+    <h1 class="fw-bolder display-5 text-dark mb-3">All <span class="text-success">Clubs</span></h1>
+    <p class="text-secondary fs-5 mb-0 mx-auto" style="max-width: 600px;">
+        Find your tribe. Join clubs that match your passions, develop your skills, and grow your campus network.
+    </p>
+</div>
+
+<!-- Clubs Grid -->
+<div class="container px-0">
+    <div class="row g-4 d-flex">
+        {% if clubs %}
+        {% for club in clubs %}
+        <div class="col-md-6 col-lg-4 d-flex">
+            <div class="card w-100 border-0 rounded-4 shadow-sm hover-lift bg-white overflow-hidden d-flex flex-column">
+
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-light text-primary rounded-circle shadow-sm me-3"
+                            style="width: 50px; height: 50px;">
+                            <i class="bi bi-briefcase-fill fs-4"></i>
+                        </div>
+                        <h4 class="card-title fw-bold mb-0 text-dark">{{ club.name }}</h4>
+                    </div>
+
+                    <p class="text-secondary small mb-4 flex-grow-1"
+                        style="display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                        {{ club.description }}
+                    </p>
+
+                    <div
+                        class="d-flex align-items-center text-secondary small mb-4 fw-medium bg-light px-3 py-2 rounded-3 border border-light-subtle">
+                        <i class="bi bi-calendar-check me-2 text-warning"></i>
+                        Total Events Hosted: <span class="text-dark ms-1 fw-bold">{{ club.events|length }}</span>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="mt-auto d-flex gap-2">
+                        {% if user %}
+                        {% if club in user.clubs %}
+                        <!-- Using inline checks in jinja requires careful context -->
+                        <button class="btn btn-outline-success rounded-pill fw-medium flex-grow-1 disabled">
+                            <i class="bi bi-check-circle-fill me-1"></i> Joined
+                        </button>
+                        {% else %}
+                        <a href="{{ url_for('join_club', id=club.id) }}"
+                            class="btn btn-primary rounded-pill fw-medium flex-grow-1 shadow-sm hover-lift">
+                            <i class="bi bi-plus-circle me-1"></i> Join
+                        </a>
+                        {% endif %}
+                        {% else %}
+                        <a href="{{ url_for('login') }}"
+                            class="btn btn-outline-secondary rounded-pill fw-medium flex-grow-1">
+                            Login to Join
+                        </a>
+                        {% endif %}
+
+                        <a href="{{ url_for('view_club', id=club.id) }}"
+                            class="btn btn-light text-primary rounded-pill fw-medium border border-primary border-opacity-25 px-4 focus-ring focus-ring-primary">
+                            View
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="col-12 py-5 text-center bg-white rounded-4 shadow-sm">
+            <div class="text-muted mb-3"><i class="bi bi-people-fill fs-1 opacity-50"></i></div>
+            <h4 class="fw-bold text-dark mb-2">No clubs available</h4>
+            <p class="text-secondary mb-0">Check back later for new student communities.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

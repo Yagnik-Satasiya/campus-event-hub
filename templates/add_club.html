@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row justify-content-center py-5">
+    <div class="col-md-8 col-lg-7">
+
+        <div class="d-flex align-items-center mb-4">
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-light rounded-circle shadow-sm me-3"
+                style="width: 45px; height: 45px; padding: 0; line-height: 45px;">
+                <i class="bi bi-arrow-left text-secondary"></i>
+            </a>
+            <div>
+                <h3 class="fw-bold mb-0">Create New Club</h3>
+                <p class="text-secondary small mb-0">Register a new campus organization</p>
+            </div>
+        </div>
+
+        <div class="card border-0 rounded-4 shadow-sm overflow-hidden bg-white">
+            <div class="bg-success bg-gradient p-2"></div>
+
+            <div class="card-body p-4 p-md-5">
+                <form method="POST">
+
+                    <div class="row g-4">
+                        <!-- CLUB NAME -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium text-secondary">Club Name <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" name="name"
+                                class="form-control form-control-lg bg-light border-0 focus-ring focus-ring-success"
+                                placeholder="E.g., Robotics Club" required>
+                        </div>
+
+                        <!-- CLUB DESCRIPTION -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium text-secondary">Description <span
+                                    class="text-danger">*</span></label>
+                            <textarea name="description"
+                                class="form-control form-control-lg bg-light border-0 focus-ring focus-ring-success"
+                                rows="5" placeholder="Describe the club's mission, activities, and goals..."
+                                required></textarea>
+                        </div>
+
+                        <!-- SUBMIT -->
+                        <div class="col-12 mt-5">
+                            <hr class="border-light-subtle mb-4">
+                            <div class="d-flex justify-content-end gap-3">
+                                <a href="{{ url_for('admin_dashboard') }}"
+                                    class="btn btn-light px-4 rounded-pill fw-medium">Cancel</a>
+                                <button type="submit"
+                                    class="btn btn-success px-5 rounded-pill fw-bold hover-lift shadow-sm">
+                                    <i class="bi bi-plus-circle me-2"></i> Add Club
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

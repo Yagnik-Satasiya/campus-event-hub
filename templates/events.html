@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="text-center mb-5 py-4 bg-primary-subtle bg-opacity-10 rounded-4 border border-primary border-opacity-25">
+    <span class="badge bg-primary text-white rounded-pill px-3 py-2 mb-2 shadow-sm">
+        <i class="bi bi-calendar-check me-1"></i> Discover
+    </span>
+    <h1 class="fw-bolder display-5 text-dark mb-3">All <span class="text-gradient">Events</span></h1>
+    <p class="text-secondary fs-5 mb-0 mx-auto" style="max-width: 600px;">
+        Explore and participate in upcoming technical, cultural, and sports events across the campus.
+    </p>
+</div>
+
+<div class="row justify-content-center mb-5">
+    <div class="col-md-6">
+        <form class="d-flex bg-white rounded-pill shadow-sm p-1 border border-light-subtle" method="GET"
+            action="{{ url_for('events') }}">
+            <input class="form-control border-0 bg-transparent shadow-none ms-3" type="search" name="q"
+                placeholder="Search for events by title..." value="{{ search_query }}">
+            <button class="btn btn-primary rounded-pill px-4 fw-bold" type="submit">
+                <i class="bi bi-search me-1"></i> Search
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="container px-0">
+    <div class="row g-4 d-flex">
+        {% if events_pagination.items %}
+        {% for event in events_pagination.items %}
+        <div class="col-md-6 col-lg-4 d-flex">
+            <div class="card w-100 border-0 rounded-4 shadow-sm hover-lift bg-white overflow-hidden d-flex flex-column">
+
+                <div class="position-relative" style="height: 220px; background: #f8fafc;">
+                    {% if event.poster %}
+                    <img src="{{ url_for('static', filename='uploads/' ~ event.poster) }}"
+                        class="w-100 h-100 object-fit-cover" alt="{{ event.title }}">
+                    {% else %}
+                    <div class="w-100 h-100 d-flex align-items-center justify-content-center text-secondary opacity-50">
+                        <i class="bi bi-image fs-1"></i>
+                    </div>
+                    {% endif %}
+
+                    <div class="position-absolute top-0 end-0 m-3">
+                        <div class="bg-white text-center rounded-3 shadow-sm px-2 py-1 border border-light"
+                            style="min-width: 60px;">
+                            {% if event.event_date %}
+                            {% set edate = (event.event_date | string).split('-') %}
+                            {% if edate|length >= 3 %}
+                            <span class="d-block text-primary fw-bold fs-4 lh-1">{{ edate[2][:2] }}</span>
+                            <span class="d-block text-secondary small text-uppercase fw-semibold">{{ edate[1] }}</span>
+                            {% endif %}
+                            {% else %}
+                            <span class="d-block text-primary fw-bold fs-4 lh-1">--</span>
+                            <span class="d-block text-secondary small text-uppercase fw-semibold">--</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 d-flex flex-column">
+                    <h4 class="card-title fw-bold mb-3 text-dark text-truncate">{{ event.title }}</h4>
+
+                    <div class="text-secondary small mb-4 flex-grow-1">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-geo-alt-fill text-primary me-2"></i>
+                            <span class="text-truncate">{{ event.location }}</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-clock-history text-warning me-2"></i>
+                            <span>Reg. Ends: <span class="fw-medium text-dark">{{ event.reg_end }}</span></span>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto pt-3 border-top border-light-subtle">
+                        {% set today_str = now().strftime('%Y-%m-%d') %}
+                        {% set spots_left = event.capacity - event.participants.count() %}
+
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <small class="text-secondary fw-bold">
+                                {% if spots_left > 0 %}
+                                <span class="text-success">{{ spots_left }} spots left!</span>
+                                {% else %}
+                                <span class="text-danger">Sold Out</span>
+                                {% endif %}
+                            </small>
+                        </div>
+
+                        {% if (event.reg_end | string) >= today_str and spots_left > 0 %}
+                        <a href="{{ url_for('participate_event', event_id=event.id) }}"
+                            class="btn btn-primary w-100 rounded-pill py-2 fw-medium shadow-sm hover-lift">
+                            Participate Now
+                        </a>
+                        {% elif spots_left <= 0 %} <button class="btn btn-danger w-100 rounded-pill py-2 fw-medium"
+                            disabled>
+                            Sold Out
+                            </button>
+                            {% else %}
+                            <button class="btn btn-light text-secondary w-100 rounded-pill py-2 fw-medium" disabled>
+                                Registration Closed
+                            </button>
+                            {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="col-12 py-5 text-center bg-white rounded-4 shadow-sm">
+            <div class="text-muted mb-3"><i class="bi bi-search fs-1 opacity-50"></i></div>
+            <h4 class="fw-bold text-dark mb-2">No events found</h4>
+            <p class="text-secondary mb-0">Try adjusting your search criteria or check back later.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row mt-5 mb-5">
+    <div class="col-12 d-flex justify-content-center">
+        <nav>
+            <ul class="pagination pagination-lg shadow-sm rounded-pill">
+                {% if events_pagination.has_prev %}
+                <li class="page-item">
+                    <a class="page-link rounded-start-pill text-primary fw-bold"
+                        href="{{ url_for('events', page=events_pagination.prev_num, q=search_query) }}">Previous</a>
+                </li>
+                {% endif %}
+
+                <li class="page-item disabled">
+                    <span class="page-link text-dark fw-bold bg-light border-light-subtle">Page {{
+                        events_pagination.page }} of {{ events_pagination.pages }}</span>
+                </li>
+
+                {% if events_pagination.has_next %}
+                <li class="page-item">
+                    <a class="page-link rounded-end-pill text-primary fw-bold"
+                        href="{{ url_for('events', page=events_pagination.next_num, q=search_query) }}">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+
+{% endblock %}

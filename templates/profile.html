@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row justify-content-center py-5">
+    <div class="col-md-6">
+        <div class="card border-0 rounded-4 shadow-sm overflow-hidden bg-white">
+            <div class="bg-primary bg-gradient p-2"></div>
+
+            <div class="card-body p-4 p-md-5">
+                <div class="text-center mb-5">
+                    <div class="position-relative d-inline-block mb-3">
+                        <img src="{% if user.profile_picture and user.profile_picture != 'default_avatar.png' %}{{ url_for('static', filename='uploads/avatars/' + user.profile_picture) }}{% else %}https://ui-avatars.com/api/?name={{ user.name }}&background=6d28d9&color=fff{% endif %}"
+                            alt="Profile Picture"
+                            class="rounded-circle shadow-sm border border-3 border-primary object-fit-cover" width="100"
+                            height="100">
+                    </div>
+                    <h3 class="fw-bold mb-1">Your Profile</h3>
+                    <p class="text-secondary small">Update your personal information below</p>
+                </div>
+
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mb-4">
+                        <label class="form-label text-secondary fw-medium">
+                            <i class="bi bi-person me-1"></i> Full Name
+                        </label>
+                        <input type="text" name="name"
+                            class="form-control form-control-lg bg-light border-0 focus-ring focus-ring-primary"
+                            value="{{ user.name }}" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label text-secondary fw-medium">
+                            <i class="bi bi-envelope me-1"></i> Email Address
+                        </label>
+                        <input type="email" class="form-control form-control-lg bg-light border-0 text-muted"
+                            value="{{ user.email }}" readonly>
+                        <div class="form-text text-muted mt-2"><i class="bi bi-info-circle me-1"></i>Email address
+                            cannot be changed.</div>
+                    </div>
+
+                    <div class="mb-5 p-4 rounded-4 bg-light border border-light-subtle">
+                        <label class="form-label text-secondary fw-medium">
+                            <i class="bi bi-lock me-1"></i> Change Password
+                        </label>
+                        <input type="password" name="password"
+                            class="form-control bg-white border-0 shadow-sm focus-ring focus-ring-primary"
+                            placeholder="Enter new password">
+                        <div class="form-text mt-2">Leave blank if you do not want to change your current password.
+                        </div>
+                    </div>
+
+                    <div class="mb-5 p-4 rounded-4 bg-light border border-light-subtle">
+                        <label class="form-label text-secondary fw-medium">
+                            <i class="bi bi-camera me-1"></i> Update Profile Picture
+                        </label>
+                        <input type="file" name="profile_picture"
+                            class="form-control form-control-lg bg-white border-0 shadow-sm focus-ring focus-ring-primary"
+                            accept="image/*">
+                        <div class="form-text mt-2">Upload a new image to change your avatar.</div>
+                    </div>
+
+                    <div class="d-flex gap-3">
+                        <a href="{{ url_for('dashboard') }}"
+                            class="btn btn-light rounded-pill px-4 fw-medium flex-grow-1">Cancel</a>
+                        <button type="submit"
+                            class="btn btn-primary rounded-pill px-4 fw-bold hover-lift flex-grow-1 shadow-sm">
+                            <i class="bi bi-save me-1"></i> Update Profile
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

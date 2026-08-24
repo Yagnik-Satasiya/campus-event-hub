@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row justify-content-center py-5">
+    <div class="col-md-8 col-lg-7">
+
+        <div class="d-flex align-items-center mb-4">
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-light rounded-circle shadow-sm me-3"
+                style="width: 45px; height: 45px; padding: 0; line-height: 45px;">
+                <i class="bi bi-arrow-left text-secondary"></i>
+            </a>
+            <div>
+                <h3 class="fw-bold mb-0">Edit Club</h3>
+                <p class="text-secondary small mb-0">Update details for {{ club.name }}</p>
+            </div>
+        </div>
+
+        <div class="card border-0 rounded-4 shadow-sm overflow-hidden bg-white">
+            <div class="bg-warning bg-gradient p-2"></div>
+
+            <div class="card-body p-4 p-md-5">
+                <form method="POST">
+
+                    <div class="row g-4">
+                        <!-- CLUB NAME -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium text-secondary">Club Name <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" name="name"
+                                class="form-control form-control-lg bg-light border-0 focus-ring focus-ring-warning"
+                                value="{{ club.name }}" required>
+                        </div>
+
+                        <!-- CLUB DESCRIPTION -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium text-secondary">Description <span
+                                    class="text-danger">*</span></label>
+                            <textarea name="description"
+                                class="form-control form-control-lg bg-light border-0 focus-ring focus-ring-warning"
+                                rows="5" required>{{ club.description }}</textarea>
+                        </div>
+
+                        <!-- SUBMIT -->
+                        <div class="col-12 mt-5">
+                            <hr class="border-light-subtle mb-4">
+                            <div class="d-flex justify-content-end gap-3">
+                                <a href="{{ url_for('admin_dashboard') }}"
+                                    class="btn btn-light px-4 rounded-pill fw-medium">Cancel</a>
+                                <button type="submit"
+                                    class="btn btn-warning px-5 rounded-pill fw-bold hover-lift shadow-sm text-dark">
+                                    <i class="bi bi-save me-2"></i> Save Changes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row justify-content-center py-5">
+    <div class="col-md-8 col-lg-7">
+
+        <div class="d-flex align-items-center mb-4">
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-light rounded-circle shadow-sm me-3"
+                style="width: 45px; height: 45px; padding: 0; line-height: 45px;">
+                <i class="bi bi-arrow-left text-secondary"></i>
+            </a>
+            <div>
+                <h3 class="fw-bold mb-0">Edit News</h3>
+                <p class="text-secondary small mb-0">Update the details for {{ news.title }}</p>
+            </div>
+        </div>
+
+        <div class="card border-0 rounded-4 shadow-sm overflow-hidden bg-white">
+            <div class="bg-warning bg-gradient p-2"></div>
+
+            <div class="card-body p-4 p-md-5">
+                <form method="POST" enctype="multipart/form-data">
+
+                    <div class="row g-4">
+                        <!-- NEWS TITLE -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium text-secondary">Headline <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" name="title"
+                                class="form-control form-control-lg bg-light border-0 focus-ring focus-ring-warning"
+                                value="{{ news.title }}" required>
+                        </div>
+
+                        <!-- NEWS DESCRIPTION -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium text-secondary">News Content <span
+                                    class="text-danger">*</span></label>
+                            <textarea name="description"
+                                class="form-control form-control-lg bg-light border-0 focus-ring focus-ring-warning"
+                                rows="5" required>{{ news.description }}</textarea>
+                        </div>
+
+                        <!-- NEWS POSTER -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium text-secondary">Featured Image (Optional)</label>
+                            {% if news.poster %}
+                            <div class="mb-3 d-flex flex-column align-items-start border p-2 rounded-3 bg-light">
+                                <span class="small text-muted mb-2">Current Image:</span>
+                                <img src="{{ url_for('static', filename='uploads/news/' ~ news.poster) }}"
+                                    class="rounded shadow-sm" style="max-height: 120px; object-fit:cover;">
+                            </div>
+                            {% endif %}
+                            <input type="file" name="poster"
+                                class="form-control bg-light border-0 focus-ring focus-ring-warning" accept="image/*">
+                            <div class="form-text">Choose a new file to replace the current image.</div>
+                        </div>
+
+                        <!-- SUBMIT -->
+                        <div class="col-12 mt-5">
+                            <hr class="border-light-subtle mb-4">
+                            <div class="d-flex justify-content-end gap-3">
+                                <a href="{{ url_for('admin_dashboard') }}"
+                                    class="btn btn-light px-4 rounded-pill fw-medium">Cancel</a>
+                                <button type="submit"
+                                    class="btn btn-warning px-5 rounded-pill fw-bold hover-lift shadow-sm text-dark">
+                                    <i class="bi bi-save me-2"></i> Update News
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

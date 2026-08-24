@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height: 75vh;">
+    <div class="col-md-6 col-lg-5">
+        <div class="card border-0 rounded-4 shadow-lg overflow-hidden">
+            <!-- Decorative Header -->
+            <div class="bg-primary bg-gradient p-4 text-center text-white">
+                <div class="d-inline-flex align-items-center justify-content-center bg-white bg-opacity-25 rounded-circle mb-3"
+                    style="width: 60px; height: 60px;">
+                    <i class="bi bi-person-plus-fill fs-1"></i>
+                </div>
+                <h3 class="fw-bold mb-1">Create an Account</h3>
+                <p class="mb-0 text-white-50">Join the CampusHub community today</p>
+            </div>
+
+            <div class="card-body p-4 p-md-5">
+                <form method="POST">
+                    <div class="mb-4">
+                        <label class="form-label fw-medium text-secondary">
+                            <i class="bi bi-person-fill me-1"></i> Full Name
+                        </label>
+                        <input type="text" name="name"
+                            class="form-control form-control-lg bg-light border-0 focus-ring focus-ring-primary"
+                            placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-medium text-secondary">
+                            <i class="bi bi-envelope-fill me-1"></i> Email Address
+                        </label>
+                        <input type="email" name="email"
+                            class="form-control form-control-lg bg-light border-0 focus-ring focus-ring-primary"
+                            placeholder="name@example.com" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-medium text-secondary">
+                            <i class="bi bi-lock-fill me-1"></i> Password
+                        </label>
+                        <div
+                            class="input-group input-group-lg border-0 bg-light rounded-3 overflow-hidden focus-ring focus-ring-primary">
+                            <input type="password" class="form-control border-0 bg-transparent shadow-none"
+                                id="password" name="password" placeholder="Create a secure password" required>
+                            <span class="input-group-text bg-transparent border-0 text-secondary"
+                                onclick="togglePassword()" style="cursor:pointer;" title="Toggle Password Visibility">
+                                <i class="bi bi-eye" id="eyeIcon"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-lg w-100 fw-bold rounded-pill hover-lift shadow-sm mt-2 mb-4">
+                        Register
+                    </button>
+                </form>
+
+                <div class="text-center">
+                    <p class="text-secondary small mb-0">
+                        Already have an account?
+                        <a href="/login" class="fw-bold text-primary text-decoration-none hover-primary">Login here</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function togglePassword() {
+        const password = document.getElementById("password");
+        const eye = document.getElementById("eyeIcon");
+
+        if (password.type === "password") {
+            password.type = "text";
+            eye.classList.replace("bi-eye", "bi-eye-slash");
+        } else {
+            password.type = "password";
+            eye.classList.replace("bi-eye-slash", "bi-eye");
+        }
+    }
+</script>
+{% endblock %}

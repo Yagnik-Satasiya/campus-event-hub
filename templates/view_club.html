@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- CLUB HERO SECTION -->
+<div class="bg-dark text-white rounded-5 p-5 mb-5 position-relative overflow-hidden shadow-sm mt-4">
+    <div class="position-absolute bg-primary opacity-25 rounded-circle blur-3xl"
+        style="width: 400px; height: 400px; top: -100px; left: -100px;"></div>
+    <div class="position-absolute bg-info opacity-25 rounded-circle blur-3xl"
+        style="width: 300px; height: 300px; bottom: -50px; right: 50px;"></div>
+
+    <div class="position-relative z-1 text-center py-4">
+        <div
+            class="d-inline-flex bg-white bg-opacity-10 rounded-circle p-4 mb-4 border border-white border-opacity-25 shadow-sm">
+            <i class="bi bi-people-fill fs-1 text-white"></i>
+        </div>
+        <h1 class="display-5 fw-bold mb-3">{{ club.name }}</h1>
+        <p class="lead text-white-50 mb-4 mx-auto" style="max-width: 700px;">{{ club.description }}</p>
+
+        <div class="d-flex justify-content-center gap-3">
+            {% if session.get('user_id') %}
+            {% if joined %}
+            <button class="btn btn-success rounded-pill px-4 fw-medium shadow-sm d-flex align-items-center gap-2"
+                disabled>
+                <i class="bi bi-check-circle-fill"></i> Member
+            </button>
+            {% else %}
+            <a href="{{ url_for('join_club', id=club.id) }}"
+                class="btn btn-primary rounded-pill px-5 fw-bold hover-lift shadow d-flex align-items-center gap-2">
+                <i class="bi bi-plus-circle"></i> Join Club
+            </a>
+            {% endif %}
+            {% else %}
+            <a href="{{ url_for('login') }}"
+                class="btn btn-light rounded-pill px-5 fw-bold hover-lift shadow-sm text-primary d-flex align-items-center gap-2">
+                <i class="bi bi-box-arrow-in-right"></i> Login to Join
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- CLUB EVENTS SECTION -->
+<div class="container mb-5">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h3 class="fw-bold mb-0 d-flex align-items-center gap-2">
+            <i class="bi bi-calendar-event text-primary fs-4"></i> Club Events
+        </h3>
+        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 border border-primary-subtle">
+            {{ events|length }} Events
+        </span>
+    </div>
+
+    {% if events %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for event in events %}
+        <div class="col">
+            <div class="card h-100 border-0 rounded-4 shadow-sm hover-lift overflow-hidden bg-white d-flex flex-column">
+
+                {% if event.poster %}
+                <div class="position-relative" style="height: 180px; background-color: #f8f9fa;">
+                    <img src="{{ url_for('static', filename='uploads/' + event.poster) }}"
+                        class="w-100 h-100 object-fit-cover" alt="{{ event.title }}">
+                    <div class="position-absolute top-0 end-0 m-3">
+                        <span
+                            class="badge bg-white text-dark shadow-sm rounded-pill px-3 py-2 fw-semibold d-flex align-items-center gap-1">
+                            <i class="bi bi-calendar3 text-primary"></i> {{ event.date }}
+                        </span>
+                    </div>
+                </div>
+                {% else %}
+                <!-- Fallback gradient if no poster -->
+                <div class="position-relative bg-primary bg-gradient d-flex align-items-center justify-content-center"
+                    style="height: 180px;">
+                    <i class="bi bi-calendar-event text-white opacity-50 display-1"></i>
+                    <div class="position-absolute top-0 end-0 m-3">
+                        <span
+                            class="badge bg-white text-dark shadow-sm rounded-pill px-3 py-2 fw-semibold d-flex align-items-center gap-1">
+                            <i class="bi bi-calendar3 text-primary"></i> {{ event.date }}
+                        </span>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="card-body p-4 d-flex flex-column">
+                    <h5 class="card-title fw-bold mb-3 text-dark">{{ event.title }}</h5>
+
+                    <ul class="list-unstyled text-secondary small mb-4 flex-grow-1 d-flex flex-column gap-2">
+                        <li class="d-flex align-items-center gap-2">
+                            <div class="bg-danger bg-opacity-10 text-danger rounded-circle p-1 d-flex">
+                                <i class="bi bi-geo-alt-fill"></i>
+                            </div>
+                            <span class="text-truncate">{{ event.location }}</span>
+                        </li>
+                    </ul>
+
+                    {% if event.form_link %}
+                    <a href="{{ event.form_link }}" target="_blank"
+                        class="btn btn-outline-primary rounded-pill w-100 fw-medium hover-lift mt-auto d-flex align-items-center justify-content-center gap-2">
+                        Participate <i class="bi bi-box-arrow-up-right"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="card border-0 rounded-4 shadow-sm bg-light text-center p-5">
+        <i class="bi bi-calendar-x display-4 text-secondary mb-3 opacity-50"></i>
+        <h5 class="text-secondary fw-medium">No events currently scheduled.</h5>
+        <p class="text-muted small mb-0">Check back later for updates from {{ club.name }}.</p>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

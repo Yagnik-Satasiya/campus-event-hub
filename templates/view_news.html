@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="mb-4">
+                <a href="{{ url_for('home') }}"
+                    class="btn btn-light rounded-pill btn-sm fw-medium shadow-sm hover-lift d-inline-flex align-items-center gap-2 px-3">
+                    <i class="bi bi-arrow-left"></i> Back to Home
+                </a>
+            </div>
+
+            <div class="card border-0 rounded-4 shadow-sm overflow-hidden bg-white">
+
+                {% if news.poster %}
+                <div class="position-relative bg-light" style="height: 400px;">
+                    <img src="{{ url_for('static', filename='uploads/news/' ~ news.poster) }}"
+                        class="w-100 h-100 object-fit-cover" alt="{{ news.title }}">
+                </div>
+                {% else %}
+                <div class="bg-primary bg-gradient p-2"></div>
+                {% endif %}
+
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <span
+                            class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 fw-semibold d-inline-flex align-items-center gap-1">
+                            <i class="bi bi-newspaper"></i> Campus News
+                        </span>
+                        <span class="text-secondary small d-flex align-items-center gap-1">
+                            <i class="bi bi-clock"></i> {{ news.date_posted.strftime('%d %b, %Y') }}
+                        </span>
+                    </div>
+
+                    <h1 class="fw-bold mb-4 display-6 text-dark lh-sm">{{ news.title }}</h1>
+
+                    <hr class="border-light-subtle mb-4">
+
+                    <div class="text-secondary" style="font-size: 1.1rem; line-height: 1.8; white-space: pre-line;">
+                        {{ news.description }}
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

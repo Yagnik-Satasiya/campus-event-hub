@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row justify-content-center py-5">
+    <div class="col-md-8 col-lg-7">
+
+        <div class="d-flex align-items-center mb-4">
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-light rounded-circle shadow-sm me-3"
+                style="width: 45px; height: 45px; padding: 0; line-height: 45px;">
+                <i class="bi bi-arrow-left text-secondary"></i>
+            </a>
+            <div>
+                <h3 class="fw-bold mb-0">Edit Event</h3>
+                <p class="text-secondary small mb-0">Update the details for {{ event.title }}</p>
+            </div>
+        </div>
+
+        <div class="card border-0 rounded-4 shadow-sm overflow-hidden bg-white">
+            <div class="bg-warning bg-gradient p-2"></div>
+
+            <div class="card-body p-4 p-md-5">
+                <form method="POST">
+
+                    <div class="row g-4">
+                        <!-- EVENT TITLE -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium text-secondary">Event Title <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" name="title"
+                                class="form-control form-control-lg bg-light border-0 focus-ring focus-ring-warning"
+                                value="{{ event.title }}" required>
+                        </div>
+
+                        <!-- CLUB & LOCATION -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium text-secondary">Organizing Club <span
+                                    class="text-danger">*</span></label>
+                            <select name="club_id"
+                                class="form-select form-select-lg bg-light border-0 focus-ring focus-ring-warning"
+                                required>
+                                {% for club in clubs %}
+                                <option value="{{ club.id }}" {% if club.id==event.club_id %}selected{% endif %}>{{
+                                    club.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium text-secondary">Location <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" name="location"
+                                class="form-control form-control-lg bg-light border-0 focus-ring focus-ring-warning"
+                                value="{{ event.location }}" required>
+                        </div>
+
+                        <!-- DATES -->
+                        <div class="col-md-4">
+                            <label class="form-label fw-medium text-secondary">Event Date <span
+                                    class="text-danger">*</span></label>
+                            <input type="date" name="date"
+                                class="form-control bg-light border-0 focus-ring focus-ring-warning"
+                                value="{{ event.event_date if event.event_date else '' }}" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-medium text-secondary">Reg. Start <span
+                                    class="text-danger">*</span></label>
+                            <input type="date" name="reg_start"
+                                class="form-control bg-light border-0 focus-ring focus-ring-warning"
+                                value="{{ event.reg_start }}" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-medium text-secondary">Reg. End <span
+                                    class="text-danger">*</span></label>
+                            <input type="date" name="reg_end"
+                                class="form-control bg-light border-0 focus-ring focus-ring-warning"
+                                value="{{ event.reg_end }}" required>
+                        </div>
+
+                        <!-- LINK -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium text-secondary">Google Form Link <span
+                                    class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-0"><i
+                                        class="bi bi-link-45deg text-secondary"></i></span>
+                                <input type="url" name="form_link"
+                                    class="form-control bg-light border-0 focus-ring focus-ring-warning"
+                                    value="{{ event.form_link }}" required>
+                            </div>
+                        </div>
+
+                        <!-- SUBMIT -->
+                        <div class="col-12 mt-5">
+                            <hr class="border-light-subtle mb-4">
+                            <div class="d-flex justify-content-end gap-3">
+                                <a href="{{ url_for('admin_dashboard') }}"
+                                    class="btn btn-light px-4 rounded-pill fw-medium">Cancel</a>
+                                <button type="submit"
+                                    class="btn btn-warning px-5 rounded-pill fw-bold hover-lift shadow-sm text-dark">
+                                    <i class="bi bi-save me-2"></i> Save Changes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

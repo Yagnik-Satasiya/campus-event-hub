@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center py-5">
+    <div class="col-md-5">
+        <div class="card border-0 rounded-4 shadow-sm p-4 p-md-5 bg-white">
+            <div class="text-center mb-4">
+                <i class="bi bi-shield-lock text-success fs-1"></i>
+                <h3 class="fw-bold mt-2">Create New Password</h3>
+                <p class="text-secondary small">Please enter your new secure password below.</p>
+            </div>
+
+            <form method="POST">
+                <div class="mb-4">
+                    <label class="form-label text-secondary fw-medium">New Password</label>
+                    <input type="password" name="password" class="form-control form-control-lg bg-light border-0"
+                        required>
+                </div>
+                <button type="submit" class="btn btn-success w-100 rounded-pill py-2 fw-bold hover-lift shadow-sm">
+                    Update Password
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

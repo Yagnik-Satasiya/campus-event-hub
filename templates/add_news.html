@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row justify-content-center py-5">
+    <div class="col-md-8 col-lg-7">
+
+        <div class="d-flex align-items-center mb-4">
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-light rounded-circle shadow-sm me-3"
+                style="width: 45px; height: 45px; padding: 0; line-height: 45px;">
+                <i class="bi bi-arrow-left text-secondary"></i>
+            </a>
+            <div>
+                <h3 class="fw-bold mb-0">Publish Campus News</h3>
+                <p class="text-secondary small mb-0">Share announcements and updates with students</p>
+            </div>
+        </div>
+
+        <div class="card border-0 rounded-4 shadow-sm overflow-hidden bg-white">
+            <div class="bg-info bg-gradient p-2"></div>
+
+            <div class="card-body p-4 p-md-5">
+                <form method="POST" enctype="multipart/form-data">
+
+                    <div class="row g-4">
+                        <!-- NEWS TITLE -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium text-secondary">Headline <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" name="title"
+                                class="form-control form-control-lg bg-light border-0 focus-ring focus-ring-info"
+                                placeholder="Enter an engaging headline" required>
+                        </div>
+
+                        <!-- NEWS DESCRIPTION -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium text-secondary">News Content <span
+                                    class="text-danger">*</span></label>
+                            <textarea name="description"
+                                class="form-control form-control-lg bg-light border-0 focus-ring focus-ring-info"
+                                rows="5" placeholder="Write your full announcement here..." required></textarea>
+                        </div>
+
+                        <!-- NEWS POSTER -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium text-secondary">Featured Image</label>
+                            <input type="file" name="poster"
+                                class="form-control bg-light border-0 focus-ring focus-ring-info" accept="image/*">
+                            <div class="form-text">Recommended size: 800x600px (JPG/PNG). This image will be shown on
+                                the home page.</div>
+                        </div>
+
+                        <!-- SUBMIT -->
+                        <div class="col-12 mt-5">
+                            <hr class="border-light-subtle mb-4">
+                            <div class="d-flex justify-content-end gap-3">
+                                <a href="{{ url_for('admin_dashboard') }}"
+                                    class="btn btn-light px-4 rounded-pill fw-medium">Cancel</a>
+                                <button type="submit"
+                                    class="btn btn-info px-5 rounded-pill fw-bold hover-lift shadow-sm text-white">
+                                    <i class="bi bi-megaphone me-2"></i> Publish News
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
