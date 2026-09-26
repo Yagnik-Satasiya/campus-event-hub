@@ -36,6 +36,7 @@ cd campus-event-hub
 3.  Open your browser and navigate to **[http://localhost/phpmyadmin/](http://localhost/phpmyadmin/)**.
 4.  Create a new database named: `campus_events_db`.
     *(Note: Flask-SQLAlchemy will automatically create the tables inside this database when the app runs for the first time).*
+NOTE : simply you can import campus_events_db.sql file to XAMPP Database.
 
 ---
 
